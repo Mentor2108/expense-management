@@ -28,8 +28,8 @@ var (
 )
 
 var RootCmd = &cobra.Command{
-	Use:   "portfolio",
-	Short: "Backend Service for portfolio website",
+	Use:   "service",
+	Short: "Backend Service for website",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		//instantiate with psql server
@@ -66,8 +66,6 @@ func StartServer(ctx context.Context, database data.Database) {
 	readTimeout := defn.ReadTimeout
 	writeTimeout := defn.WriteTimeout
 	readHeaderTimeout := defn.ReadHeaderTimeout
-
-	router.PanicHandler = util.PanicHandler
 
 	userHandler := SetupRouters(database)
 	rest.AddRoutes(router, userHandler)
