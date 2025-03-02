@@ -11,7 +11,7 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-func AddRoutes(router *httprouter.Router, userHandler *user.UserRoutesHandler) {
+func AddRoutes(router *httprouter.Router) {
 	log := util.GetGlobalLogger(context.Background())
 
 	router.NotFound = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -19,9 +19,9 @@ func AddRoutes(router *httprouter.Router, userHandler *user.UserRoutesHandler) {
 		w.WriteHeader(http.StatusNotFound)
 	})
 
-	router.Handle(http.MethodGet, "/status", ServerStatus)
+	router.Handle(http.MethodGet, "/status", JwtProtectedRoutes(ServerStatus))
 
-	user.AddRoutes(router, userHandler)
+	user.AddRoutes(router)
 }
 
 func ServerStatus(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
